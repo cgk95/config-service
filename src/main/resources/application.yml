@@ -1,0 +1,21 @@
+server:
+  port: 8888
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min-spare: 5
+
+spring:
+  application:
+    name: config-service # 현재 어플리케이션의 이름
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/cgk95/config-repo.git # 설정 저장 백엔드로 사용할 깃 저장소
+          default-label: main
+          timeout: 5 # 원격 저장소에서 설정을 가져오는 타임아웃
+          clone-on-start: true # 저장소 복제가 서비스 시작 시 이루어짐
+          force-pull: true # 로컬 저장본이 원격 저장소와 다를 경우 무조건 삭제하고 원격 저장소로부터 다운로드
