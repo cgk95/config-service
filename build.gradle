@@ -30,7 +30,7 @@ dependencyManagement {
 }
 
 bootBuildImage {
-    builder = "ghcr.io/thomasvitale/java-builder-arm64"
+    builder = "docker.io/paketobuildpacks/builder-jammy-base"
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION": "17"]
 
@@ -41,6 +41,13 @@ bootBuildImage {
             url = project.findProperty("registryUrl")
         }
     }
+}
+
+tasks.named('bootBuildImage') {
+    if (System.getProperty( "os.arch" ).toLowerCase().startsWith('aarch')) {
+        builder = "ghcr.io/thomasvitale/java-builder-arm64"
+    }
+    builder = "paketobuildpacks/builder:tiny"
 }
 
 tasks.named('test') {
